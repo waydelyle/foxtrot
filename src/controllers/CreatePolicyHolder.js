@@ -1,3 +1,6 @@
+/**
+ * Configs
+ */
 const config = require('../../config.js');
 
 const ROOT_API_ENDPOINT = config.ROOT_API_ENDPOINT;
@@ -5,18 +8,16 @@ const AUTHORIZATION = config.AUTHORIZATION;
 
 const request = require('request-promise');
 
-const InsuranceQuote = {
+const CreatePolicyHolder = {
 
     post(req, res) {
-
-        console.log(config.AUTHORIZATION);
 
         //Extract the device name from the request object
         let device = req.body.result && req.body.result.parameters && req.body.result.parameters.device ? req.body.result.parameters.device : null;
         console.log(device);
 
         if (device !== null) {
-            let reqUrl = encodeURI(ROOT_API_ENDPOINT + '/quotes');
+            let reqUrl = encodeURI(ROOT_API_ENDPOINT + '/policyholders');
 
             const options = {
                 method: 'POST',
@@ -64,4 +65,4 @@ const InsuranceQuote = {
 
 };
 
-module.exports = InsuranceQuote;
+module.exports = CreatePolicyHolder;
