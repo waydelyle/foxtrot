@@ -31,7 +31,6 @@ server.use(bodyParser.urlencoded({
 //Specify the use of json
 server.use(bodyParser.json());
 
-
 /**
  * Routes
  */
