@@ -11,10 +11,8 @@ const request = require('request-promise');
 const CreatePolicyHolder = {
 
     post(req, res) {
-
         //Extract the device name from the request object
         let device = req.body.result && req.body.result.parameters && req.body.result.parameters.device ? req.body.result.parameters.device : null;
-        console.log(device);
 
         if (device !== null) {
             let reqUrl = encodeURI(ROOT_API_ENDPOINT + '/policyholders');
