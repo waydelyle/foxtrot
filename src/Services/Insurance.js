@@ -3,6 +3,8 @@
  */
 const config = require('../../config.js');
 
+const store = require('data-store')('my-app');
+
 const ROOT_API_ENDPOINT = config.ROOT_API_ENDPOINT;
 const AUTHORIZATION = config.AUTHORIZATION;
 
@@ -30,16 +32,14 @@ const Insurance = {
 
         request(options, function(error, response, body) {
             if (error) {
-                res.send(error);
+                console.log("Error: " + error);
+                res.send("Sorry, something went wrong.");
             }
 
-            const startDate = moment(params['date-period-start']);
-            const endDate = moment(params['date-period-end']);
+            const startDate = moment(params['date-start']);
+            const endDate = moment(params['date-end']);
 
-            const daysCovered = endDate.diff(startDate, 'days');
-
-            // console.log(moment(params).daysInMonth());
-            console.log(daysCovered);
+            let daysCovered = endDate.diff(startDate, 'days');
 
             //Extract quotes from response
             let comprehensive_insurance_quote = body[0];
@@ -55,7 +55,17 @@ const Insurance = {
                 });
             }
 
-            const calculatedCover = parseFloat(comprehensive_insurance_quote.suggested_premium / endDate.daysInMonth() * daysCovered).toFixed(2);
+            if (!daysCovered) {
+                daysCovered = 1;
+            }
+
+            let calculatedCover = parseFloat(comprehensive_insurance_quote.suggested_premium / endDate.daysInMonth() * daysCovered).toFixed(2);
+
+            if (isNaN(calculatedCover)) {
+                calculatedCover = parseFloat(comprehensive_insurance_quote.suggested_premium / 30 ).toFixed(2);
+            }
+
+            store.set('quotePackageId', body[0].quote_package_id);
 
             let responseMessage = "Comprehensive insurance will cost you R" + calculatedCover + " to be covered for " + daysCovered + " days. Do you agree to this once off cover price?";
             return res.json({
@@ -66,7 +76,8 @@ const Insurance = {
         });
     },
 
-    create(idNumber, firstName, lastName, res){
+    create(params, res){
+
         const options = {
             method: 'POST',
             headers: {
@@ -76,11 +87,11 @@ const Insurance = {
             body: {
                 id : {
                     type : "id",
-                    number : idNumber ?  idNumber : null,
+                    number : params.ID ?  params.ID : null,
                     country : "ZA",
                 },
-                first_name : firstName ? firstName : null,
-                last_name : lastName ? lastName : null,
+                first_name : params.firstname ? params.firstname : null,
+                last_name : params.surname ? params.surname : null,
             },
             json: true
         };
@@ -89,6 +100,7 @@ const Insurance = {
 
             if (error) {
                 console.log('Error: ' + error);
+                res.send("Sorry, something went wrong.");
             }
 
             res.send(response.body);

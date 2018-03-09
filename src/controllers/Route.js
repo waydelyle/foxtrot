@@ -13,7 +13,7 @@ const Route = {
             case "agree":
                 Agreed.post(request, response);
                 break;
-            case "test":
+            case "get_personal":
                 CreatePolicyHolder.post(request, response);
                 break;
             default:

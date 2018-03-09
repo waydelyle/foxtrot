@@ -4,12 +4,10 @@ const CreatePolicyHolder = {
 
     post(req, res) {
 
-        const params = req.body;
+        const params = req.body.result.contexts[0].parameters;
 
         insurance.create(
-            params.idNumber,
-            params.firstName,
-            params.lastName,
+            params,
             res
         );
 
