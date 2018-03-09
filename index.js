@@ -11,6 +11,7 @@ const request = require('request-promise');
  */
 const Home = require('./src/controllers/Home');
 const InsuranceQuote = require('./src/controllers/InsuranceQuote');
+const CreatePolicyHolder = require('./src/controllers/CreatePolicyHolder');
 
 //Create an express server and define a parsing strategy on it.
 const server = express();
@@ -37,5 +38,7 @@ server.use(bodyParser.json());
 server.get('/', Home.get);
 
 server.post('/get-insurance-quote', InsuranceQuote.post);
+
+server.post('/create-policy-holder', CreatePolicyHolder.post);
 
 server.listen(3000, () => console.log('Listening on port 3000'));
