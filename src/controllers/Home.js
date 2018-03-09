@@ -1,7 +1,7 @@
 const Home = {
 
     get: function (request, response) {
-        response.send('About this wiki');
+        response.send('Welcome home.');
     }
 
 };
