@@ -36,6 +36,8 @@ server.use(bodyParser.json());
  */
 server.get('/', Home.get);
 
+server.post('/test', InsuranceQuote.get);
+
 server.post('/get-insurance-quote', InsuranceQuote.post);
 
 server.listen(3000, () => console.log('Listening on port 3000'));
