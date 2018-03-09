@@ -3,8 +3,8 @@ const app = express();
 const request = require('request-promise');
 
 const ROOT_API_ENDPOINT = 'https://sandbox.root.co.za/v1/insurance';
-const CLIENT_ID = '137b9616-10f7-11e8-bd8b-dfc98f78ba4e';//TODO: Insert your Root Client ID here
-const CLIENT_SECRET = '3cRCQ4Bp8ti98GrdN96V0IBqrrHHpggp';////TODO: Insert your Root Client Secret here
+const CLIENT_ID = '42b7212c-1e38-11e8-a633-5b3f08f8ae37';
+const CLIENT_SECRET = 'sandbox_ODA1MWU3MWItZGZkYy00MzZhLThlZGEtOTc5NjVmY2ZhYjhhLnJCdXladW5LYkZlTTVuaTMtcWhHOERjcFBQY1JPZzAw';////TODO: Insert your Root Client Secret here
 const AUTH_TOKEN = "Basic " + new Buffer(CLIENT_ID + ":" + CLIENT_SECRET).toString("base64");
 
 app.get('/', function (req, res) {
