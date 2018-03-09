@@ -1,3 +1,5 @@
+const Home = require('./src/controllers/home');
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request-promise');
@@ -9,6 +11,16 @@ const AUTH_TOKEN = "Basic " + new Buffer(CLIENT_ID + ":" + CLIENT_SECRET).toStri
 
 //Create an express server and define a parsing strategy on it.
 const server = express();
+
+server.use(function(req, res, next) {
+
+    // log each request to the console
+    console.log(req.method, req.url);
+
+    // continue doing what we were doing and go to the route
+    next();
+});
+
 server.use(bodyParser.urlencoded({
     //Use deep parsing to deal with nested objects
     extended: true
@@ -17,9 +29,7 @@ server.use(bodyParser.urlencoded({
 //Specify the use of json
 server.use(bodyParser.json());
 
-server.get('/', function (req, res) {
-    res.send('Hello World!')
-});
+server.get('/', Home);
 
 //REST Endpoint for getting a root_gadget insurance quote
 server.post('/get-insurance-quote', function(req, res) {
