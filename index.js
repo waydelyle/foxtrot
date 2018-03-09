@@ -1,19 +1,12 @@
 const express = require('express');
 const app = express();
+const bodyParser = require('body-parser');
 const request = require('request-promise');
 
 const ROOT_API_ENDPOINT = 'https://sandbox.root.co.za/v1/insurance';
 const CLIENT_ID = '42b7212c-1e38-11e8-a633-5b3f08f8ae37';
 const CLIENT_SECRET = 'sandbox_ODA1MWU3MWItZGZkYy00MzZhLThlZGEtOTc5NjVmY2ZhYjhhLnJCdXladW5LYkZlTTVuaTMtcWhHOERjcFBQY1JPZzAw';////TODO: Insert your Root Client Secret here
 const AUTH_TOKEN = "Basic " + new Buffer(CLIENT_ID + ":" + CLIENT_SECRET).toString("base64");
-
-app.get('/', function (req, res) {
-    res.send('Hello World!')
-});
-
-app.listen(8000, function () {
-    console.log('Example app listening on port 8000!')
-});
 
 //Create an express server and define a parsing strategy on it.
 const server = express();
@@ -24,6 +17,10 @@ server.use(bodyParser.urlencoded({
 
 //Specify the use of json
 server.use(bodyParser.json());
+
+server.get('/', function (req, res) {
+    res.send('Hello World!')
+});
 
 //REST Endpoint for getting a root_gadget insurance quote
 server.post('/get-insurance-quote', function(req, res) {
