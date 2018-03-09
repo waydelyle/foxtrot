@@ -6,7 +6,7 @@ const InsuranceQuote = {
 
         const params = req.body.result.contexts[0].parameters;
 
-        insurance.quote(
+        insurance.agreed(
             params,
             res
         );

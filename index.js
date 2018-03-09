@@ -9,9 +9,7 @@ const request = require('request-promise');
 /**
  * Controllers
  */
-const Home = require('./src/controllers/Home');
-const InsuranceQuote = require('./src/controllers/InsuranceQuote');
-const CreatePolicyHolder = require('./src/controllers/CreatePolicyHolder');
+const Route = require('./src/controllers/Route');
 
 //Create an express server and define a parsing strategy on it.
 const server = express();
@@ -35,10 +33,6 @@ server.use(bodyParser.json());
 /**
  * Routes
  */
-server.get('/', Home.get);
-
-server.post('/get-insurance-quote', InsuranceQuote.post);
-
-server.post('/create-policy-holder', CreatePolicyHolder.post);
+server.post('/', Route.route);
 
 server.listen(3000, () => console.log('Listening on port 3000'));

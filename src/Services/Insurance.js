@@ -8,9 +8,11 @@ const AUTHORIZATION = config.AUTHORIZATION;
 
 const request = require('request-promise');
 
+const moment = require('moment');
+
 const Insurance = {
 
-    quote(hasSpouse, numberOfChildren){
+    quote(params, res){
         const options = {
             method: 'POST',
             headers: {
@@ -20,8 +22,8 @@ const Insurance = {
             body: {
                 type: 'root_funeral',
                 cover_amount: 5000000,
-                has_spouse:  hasSpouse ? hasSpouse : false,
-                number_of_children:  numberOfChildren ? numberOfChildren : 0,
+                has_spouse: false,
+                number_of_children: 0,
             },
             json: true
         };
@@ -31,7 +33,13 @@ const Insurance = {
                 res.send(error);
             }
 
-            res.send(response.body)
+            const startDate = moment(params['date-period-start']);
+            const endDate = moment(params['date-period-end']);
+
+            const daysCovered = endDate.diff(startDate, 'days');
+
+            // console.log(moment(params).daysInMonth());
+            console.log(daysCovered);
 
             //Extract quotes from response
             let comprehensive_insurance_quote = body[0];
@@ -47,8 +55,9 @@ const Insurance = {
                 });
             }
 
-            //Send comprehenisive insurance amount back to DialogFlow (Using suggested_premium value)
-            let responseMessage = "Comprehensive insurance of your device will cost R" + comprehensive_insurance_quote.suggested_premium / 100.0 + " per month";
+            const calculatedCover = parseFloat(comprehensive_insurance_quote.suggested_premium / endDate.daysInMonth() * daysCovered).toFixed(2);
+
+            let responseMessage = "Comprehensive insurance will cost you R" + calculatedCover + " to be covered for " + daysCovered + " days. Do you agree to this once off cover price?";
             return res.json({
                 speech: responseMessage,
                 displayText: responseMessage,
@@ -84,6 +93,18 @@ const Insurance = {
 
             res.send(response.body);
 
+        });
+    },
+
+    agreed(params, res) {
+        res.send({
+            followupEvent : {
+                // name : (params.agree === "yes") ? "agree_yes" : "agree_no",
+                name : "agree_yes",
+                data : {
+                    test : "test"
+                },
+            },
         });
     }
 
