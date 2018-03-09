@@ -11,14 +11,12 @@ const InsuranceQuote = {
 
         const params = req.body;
 
-        let reqUrl = encodeURI(ROOT_API_ENDPOINT + '/quotes');
-
         const options = {
             method: 'POST',
             headers: {
                 Authorization: AUTHORIZATION,
             },
-            uri: reqUrl,
+            uri: encodeURI(ROOT_API_ENDPOINT + '/quotes'),
             form: {
                 type: 'root_funeral',
                 cover_amount: 5000000,
