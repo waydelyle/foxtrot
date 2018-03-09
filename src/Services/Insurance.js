@@ -103,7 +103,7 @@ const Insurance = {
                 res.send("Sorry, something went wrong.");
             }
 
-            res.send(response.body);
+            res.send("Your policy number: " + body.policyholder_id);
 
         });
     },
